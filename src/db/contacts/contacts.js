@@ -1,5 +1,5 @@
 // src/db/contacts/contacts.js
-import { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const contactsSchema = new Schema(
   {
@@ -30,3 +30,5 @@ const contactsSchema = new Schema(
     versionKey: false,
   },
 );
+
+export const ContactsCollection = model('contacts', contactsSchema);

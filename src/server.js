@@ -5,6 +5,7 @@ import pino from 'pino-http';
 import cors from 'cors';
 
 import { getEnvVar } from './utils/getEnvVar.js';
+import { getAllContacts, getContactsById } from './services/contacts.js';
 
 const PORT = Number(getEnvVar('PORT', '3000'));
 
@@ -47,5 +48,29 @@ export const setupServer = () => {
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+  });
+
+  //маршрут для отримання колекції всіх контактів
+  app.get('/contacts', async (req, res) => {
+    const contacts = await getAllContacts();
+    res.status(200).json({ data: contacts });
+  });
+
+  //маршрут для отримання контакта за його id
+  app.get('/contacts/:contactId', async (req, res) => {
+    const { contactId } = req.params;
+    const contact = await getContactsById(contactId);
+
+    // Відповідь, якщо контакт не знайдено
+    if (!contact) {
+      res.status(404).json({ message: 'Contact not found' });
+      return;
+    }
+    // Відповідь, якщо контакт знайдено
+    res.status(200).json({
+      status: '200',
+      message: 'Successfully found contacts!',
+      data: contact,
+    });
   });
 };
