@@ -9,11 +9,6 @@ export const getAllContactController = async (req, res) => {
   res.status(200).json({ data: contacts });
 };
 
-app.get('/contacts', async (req, res) => {
-  const contacts = await getAllContacts();
-  res.status(200).json({ data: contacts });
-});
-
 //отримання контакта за його id
 
 export const getContactsByIdController = async (req, res) => {
