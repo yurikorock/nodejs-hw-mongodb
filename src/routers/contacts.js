@@ -3,6 +3,7 @@
 import { Router } from 'express';
 import {
   createContactController,
+  deleteContactController,
   getAllContactController,
   getContactsByIdController,
 } from '../controllers/contacts.js';
@@ -15,5 +16,7 @@ router.get('/contacts', ctrlWrapper(getAllContactController));
 router.get('/contacts/:contactId', ctrlWrapper(getContactsByIdController));
 
 router.post('/contacts', ctrlWrapper(createContactController));
+
+router.delete('/contacts/:contactId', ctrlWrapper(deleteContactController));
 
 export default router;
