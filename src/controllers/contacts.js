@@ -6,6 +6,7 @@ import {
   deleteContact,
   getAllContacts,
   getContactsById,
+  updateContact,
 } from '../services/contacts.js';
 
 //отримання колекції всіх контактів
@@ -50,4 +51,19 @@ export const deleteContactController = async (req, res, next) => {
     return;
   }
   res.status(204).send();
+};
+//оновлення даних існуючого контакту
+export const patchContactController = async (req, res, next) => {
+  const { contactId } = req.params;
+  const result = await updateContact(contactId, req.body, { upsert: true });
+  if (!result) {
+    next(createHttpError(404, 'Contact not found'));
+    return;
+  }
+  const status = result.isNew ? 201 : 200;
+  res.status(status).json({
+    status: 201,
+    message: 'Successfully created a contact!',
+    data: result.contact,
+  });
 };
