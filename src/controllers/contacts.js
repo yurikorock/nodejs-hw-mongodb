@@ -13,7 +13,11 @@ import {
 
 export const getAllContactController = async (req, res) => {
   const contacts = await getAllContacts();
-  res.status(200).json({ data: contacts });
+  res.status(200).json({
+    status: 200,
+    message: 'All contacts found',
+    data: contacts,
+  });
 };
 
 //отримання контакта за його id
@@ -62,8 +66,8 @@ export const patchContactController = async (req, res, next) => {
   }
   const status = result.isNew ? 201 : 200;
   res.status(status).json({
-    status: 201,
-    message: 'Successfully created a contact!',
+    status: 200,
+    message: 'Successfully patched a contact!',
     data: result.contact,
   });
 };
