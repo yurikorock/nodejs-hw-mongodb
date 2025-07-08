@@ -26,12 +26,11 @@ export const updateContact = async (contactId, payload, options = {}) => {
     {
       new: true,
       includeResultMetadata: true,
-      ...options,
+      upsert: false,
     },
   );
   if (!rawResult || !rawResult.value) return null;
   return {
     contact: rawResult.value,
-    isNew: Boolean(rawResult?.lastErrorObject.upserted),
   };
 };
