@@ -1,8 +1,31 @@
 import { ContactsCollection } from '../db/contacts/contacts.js';
+import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-export const getAllContacts = async () => {
-  const contacts = await ContactsCollection.find();
-  return contacts;
+export const getAllContacts = async ({ page, perPage }) => {
+  const limit = perPage;
+
+  //розраховує зміщення (skip), що дорівнює кількості записів,
+  //що мають бути пропущені перед початком видачі на поточній сторінці.
+  const skip = (page - 1) * perPage;
+
+  const contactsQuery = ContactsCollection.find();
+  //запит для визначення загальної кількості контактів
+  const contactsCount = await ContactsCollection.find()
+    .merge(contactsQuery)
+    .countDocuments();
+
+  // запит до бази даних для отримання списку студентів,
+  //використовуючи спеціальні методи skip та limit для застосування пагінації.
+  const contacts = await contactsQuery.skip(skip).limit(limit).exec();
+
+  //обраховує і повертає дані для пагінації, зокрема інформацію про загальну
+  //кількість сторінок і чи є наступна чи попередня сторінка.
+  const paginationData = calculatePaginationData(contactsCount, perPage, page);
+
+  return {
+    data: contacts,
+    ...paginationData,
+  };
 };
 
 export const getContactsById = async (contactsId) => {
