@@ -14,12 +14,17 @@ import {
   createContactsSchema,
   updateContactsSchema,
 } from '../validation/contacts.js';
+import { isValidId } from '../middlewares/isValidId.js';
 
 const router = Router();
 
 router.get('/contacts', ctrlWrapper(getAllContactController));
 
-router.get('/contacts/:contactId', ctrlWrapper(getContactsByIdController));
+router.get(
+  '/contacts/:contactId',
+  isValidId,
+  ctrlWrapper(getContactsByIdController),
+);
 
 router.post(
   '/contacts',
@@ -27,10 +32,15 @@ router.post(
   ctrlWrapper(createContactController),
 );
 
-router.delete('/contacts/:contactId', ctrlWrapper(deleteContactController));
+router.delete(
+  '/contacts/:contactId',
+  isValidId,
+  ctrlWrapper(deleteContactController),
+);
 
 router.patch(
   '/contacts/:contactId',
+  isValidId,
   validateBody(updateContactsSchema),
   ctrlWrapper(patchContactController),
 );
