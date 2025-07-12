@@ -1,7 +1,13 @@
+import { SORT_ORDER } from '../constants/index,js';
 import { ContactsCollection } from '../db/contacts/contacts.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-export const getAllContacts = async ({ page, perPage }) => {
+export const getAllContacts = async ({
+  page = 1,
+  perPage = 10,
+  sortOrder = SORT_ORDER.ASC,
+  sortBy = '_id',
+}) => {
   const limit = perPage;
 
   //розраховує зміщення (skip), що дорівнює кількості записів,
@@ -16,7 +22,11 @@ export const getAllContacts = async ({ page, perPage }) => {
 
   // запит до бази даних для отримання списку студентів,
   //використовуючи спеціальні методи skip та limit для застосування пагінації.
-  const contacts = await contactsQuery.skip(skip).limit(limit).exec();
+  const contacts = await contactsQuery
+    .skip(skip)
+    .limit(limit)
+    .sort({ [sortBy]: sortOrder })
+    .exec();
 
   //обраховує і повертає дані для пагінації, зокрема інформацію про загальну
   //кількість сторінок і чи є наступна чи попередня сторінка.
