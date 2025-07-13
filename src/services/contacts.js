@@ -20,6 +20,10 @@ export const getAllContacts = async ({
   if (filter.contactType) {
     contactsQuery.where('contactType').equals(filter.contactType);
   }
+  // фільтр чи isFavourite - відображає чи є контакт обраним
+  if (filter.isFavourite !== undefined) {
+    contactsQuery.where('isFavourite').equals(filter.isFavourite);
+  }
   //запит для визначення загальної кількості контактів
   const contactsCount = await ContactsCollection.find()
     .merge(contactsQuery)
