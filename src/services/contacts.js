@@ -7,6 +7,7 @@ export const getAllContacts = async ({
   perPage = 10,
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
+  filter = {},
 }) => {
   const limit = perPage;
 
@@ -15,6 +16,10 @@ export const getAllContacts = async ({
   const skip = (page - 1) * perPage;
 
   const contactsQuery = ContactsCollection.find();
+  //фільтр для дозволеного списку значень 'home', 'personal', 'work'
+  if (filter.contactType) {
+    contactsQuery.where('contactType').equals(filter.contactType);
+  }
   //запит для визначення загальної кількості контактів
   const contactsCount = await ContactsCollection.find()
     .merge(contactsQuery)
