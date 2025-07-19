@@ -3,7 +3,7 @@
 import createHttpError from 'http-errors';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
 
-import { loginUser, registerUsers } from '../services/auth.js';
+import { loginUser, logOutUser, registerUsers } from '../services/auth.js';
 
 export const registerUserController = async (req, res) => {
   const user = await registerUsers(req.body);
@@ -43,4 +43,16 @@ export const loginUserController = async (req, res) => {
       accessToken: session.accessToken,
     },
   });
+};
+
+// виконує процес обробки запиту на вихід користувача
+// і взаємодію з клієнтом через HTTP.
+export const logOutUserController = async (req, res) => {
+  if (req.cookies.sessionId) {
+    await logOutUser(req.cookies.sessionId);
+  }
+  res.clearCookie('sessionId');
+  res.clearCookie('refreshToken');
+
+  res.status(204).send();
 };

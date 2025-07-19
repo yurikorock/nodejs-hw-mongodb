@@ -8,6 +8,7 @@ import { SessionsCollection } from '../db/contacts/session.js';
 import { FIFTEEN_MINUTES } from '../constants/index.js';
 import { ONE_DAY } from '../constants/index.js';
 
+//реєстрація користувача
 export const registerUsers = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
   if (user) {
@@ -20,6 +21,7 @@ export const registerUsers = async (payload) => {
     password: encryptedPassword,
   });
 };
+//аутентифікація користувача
 export const loginUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
   if (!user) {
@@ -39,4 +41,8 @@ export const loginUser = async (payload) => {
     accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
     refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
   });
+};
+// логаут користувача
+export const logOutUser = async (sessionId) => {
+  await SessionsCollection.deleteOne({ _id: sessionId });
 };
