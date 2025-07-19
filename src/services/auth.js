@@ -1,7 +1,12 @@
+// src/services/auth.js
+import { randomBytes } from 'crypto';
 import bcrypt from 'bcrypt';
 
 import { UsersCollection } from '../db/contacts/user.js';
 import createHttpError from 'http-errors';
+import { SessionsCollection } from '../db/contacts/session.js';
+import { FIFTEEN_MINUTES } from '../constants/index,js';
+import { ONE_DAY } from '../constants/index,js';
 
 export const registerUsers = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
@@ -20,4 +25,14 @@ export const loginUser = async (payload) => {
   if (!isEqual) {
     throw createHttpError(401, 'Unauthorized');
   }
+  await SessionsCollection.deleteOne({ userId: user._id });
+  const accessToken = randomBytes(30).toString('base64');
+  const refreshToken = randomBytes(30).toString('base64');
+  return await SessionsCollection.create({
+    userId: user._id,
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+    refreshTokenValidUntil: new Date(Date.now + ONE_DAY),
+  });
 };
