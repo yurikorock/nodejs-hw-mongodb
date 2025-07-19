@@ -5,8 +5,8 @@ import bcrypt from 'bcrypt';
 import { UsersCollection } from '../db/contacts/user.js';
 import createHttpError from 'http-errors';
 import { SessionsCollection } from '../db/contacts/session.js';
-import { FIFTEEN_MINUTES } from '../constants/index,js';
-import { ONE_DAY } from '../constants/index,js';
+import { FIFTEEN_MINUTES } from '../constants/index.js';
+import { ONE_DAY } from '../constants/index.js';
 
 export const registerUsers = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
@@ -14,7 +14,10 @@ export const registerUsers = async (payload) => {
     throw createHttpError(409, 'Email in use');
   }
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
-  return await UsersCollection.create({ ...payload, encryptedPassword });
+  return await UsersCollection.create({
+    email: payload.email,
+    password: encryptedPassword,
+  });
 };
 export const loginUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
@@ -33,6 +36,6 @@ export const loginUser = async (payload) => {
     accessToken,
     refreshToken,
     accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-    refreshTokenValidUntil: new Date(Date.now + ONE_DAY),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
   });
 };

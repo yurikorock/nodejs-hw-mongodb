@@ -1,5 +1,5 @@
 // src/utils/parseSortParams.js
-import { SORT_ORDER } from '../constants/index,js';
+import { SORT_ORDER } from '../constants/index.js';
 
 const parseSortOrder = (sortOrder) => {
   //перевіряє, чи відповідає він одному з відомих
