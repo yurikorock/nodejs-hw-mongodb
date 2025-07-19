@@ -15,6 +15,7 @@ export const registerUsers = async (payload) => {
   }
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
   return await UsersCollection.create({
+    name: payload.name,
     email: payload.email,
     password: encryptedPassword,
   });
