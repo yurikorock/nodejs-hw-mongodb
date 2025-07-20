@@ -19,10 +19,6 @@ import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 
-router.get('/', ctrlWrapper(getAllContactController));
-
-router.get('/:contactId', isValidId, ctrlWrapper(getContactsByIdController));
-
 router.post(
   '/',
   validateBody(createContactsSchema),
@@ -38,6 +34,8 @@ router.patch(
   ctrlWrapper(patchContactController),
 );
 router.use(authenticate);
+
 router.get('/', ctrlWrapper(getAllContactController));
+router.get('/:contactId', isValidId, ctrlWrapper(getContactsByIdController));
 
 export default router;
