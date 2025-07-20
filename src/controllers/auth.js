@@ -3,7 +3,12 @@
 import createHttpError from 'http-errors';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
 
-import { loginUser, logOutUser, registerUsers } from '../services/auth.js';
+import {
+  loginUser,
+  logOutUser,
+  refreshUserSession,
+  registerUsers,
+} from '../services/auth.js';
 
 export const registerUserController = async (req, res) => {
   const user = await registerUsers(req.body);
@@ -55,4 +60,27 @@ export const logOutUserController = async (req, res) => {
   res.clearCookie('refreshToken');
 
   res.status(204).send();
+};
+//процес оновлення сесії користувача і взаємодію з клієнтом через HTTP
+const setupSession = (res, session) => {
+  res.cookie('refreshToken', session.refreshToken, {
+    httpOnly: true,
+    expires: new Date(Date.now() + 30 * ONE_DAY),
+  });
+  res.cookie('sessionId', session._id, {
+    httpOnly: true,
+    expires: new Date(Date.now() + FIFTEEN_MINUTES),
+  });
+};
+export const refreshUserSessionController = async (req, res) => {
+  const session = await refreshUserSession({
+    sessionId: req.cookies.sessionId,
+    refreshToken: req.cookies.refreshToken,
+  });
+  setupSession(res, session);
+  res.json({
+    status: 200,
+    message: 'Successfully refreshed a sesssion',
+    data: { accessToken: session.accessToken },
+  });
 };

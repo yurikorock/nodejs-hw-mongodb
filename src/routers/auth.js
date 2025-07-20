@@ -5,6 +5,7 @@ import { loginUserSchema, registerUserSchema } from '../validation/auth.js';
 import {
   loginUserController,
   logOutUserController,
+  refreshUserSessionController,
   registerUserController,
 } from '../controllers/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
@@ -21,4 +22,5 @@ router.post(
   ctrlWrapper(loginUserController),
 );
 router.post('/logout', ctrlWrapper(logOutUserController));
+router.post('/refresh', ctrlWrapper(refreshUserSessionController));
 export default router;
