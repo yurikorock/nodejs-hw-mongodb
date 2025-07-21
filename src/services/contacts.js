@@ -8,6 +8,7 @@ export const getAllContacts = async ({
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
   filter = {},
+  userId,
 }) => {
   const limit = perPage;
 
@@ -15,7 +16,7 @@ export const getAllContacts = async ({
   //що мають бути пропущені перед початком видачі на поточній сторінці.
   const skip = (page - 1) * perPage;
 
-  const contactsQuery = ContactsCollection.find();
+  const contactsQuery = ContactsCollection.find({ userId });
   //фільтр для дозволеного списку значень 'home', 'personal', 'work'
   if (filter.contactType) {
     contactsQuery.where('contactType').equals(filter.contactType);
@@ -47,8 +48,11 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContactsById = async (contactsId) => {
-  const contact = await ContactsCollection.findById(contactsId);
+export const getContactsById = async (contactsId, userId) => {
+  const contact = await ContactsCollection.findOne({
+    _id: contactsId,
+    userId: userId,
+  });
   return contact;
 };
 
@@ -57,13 +61,22 @@ export const createContact = async (payload) => {
   return contact;
 };
 
-export const deleteContact = async (contactId) => {
-  const contact = await ContactsCollection.findOneAndDelete({ _id: contactId });
+export const deleteContact = async (contactId, userId) => {
+  const contact = await ContactsCollection.findOneAndDelete({
+    _id: contactId,
+    userId: userId,
+  });
   return contact;
 };
-export const updateContact = async (contactId, payload, options = {}) => {
+export const updateContact = async (
+  contactId,
+  payload,
+  userId,
+
+  options = {},
+) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId },
+    { _id: contactId, userId },
     payload,
     {
       new: true,

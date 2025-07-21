@@ -1,7 +1,7 @@
 // src/db/models/user.js
 
 import { model, Schema } from 'mongoose';
-import { ROLES } from '../../constants/index.js';
+// import { ROLES } from '../../constants/index.js';
 
 const usersSchema = new Schema(
   {
@@ -13,11 +13,11 @@ const usersSchema = new Schema(
       match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address'],
     },
     password: { type: String, required: true },
-    role: {
-      type: String,
-      enum: [ROLES.ADMIN, ROLES.USER],
-      default: ROLES.USER,
-    },
+    // role: {
+    //   type: String,
+    //   enum: [ROLES.ADMIN, ROLES.USER],
+    //   default: ROLES.USER,
+    // },
   },
 
   { timestamps: true, versionKey: false },
