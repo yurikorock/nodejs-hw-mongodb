@@ -20,6 +20,7 @@ import { authenticate } from '../middlewares/authenticate.js';
 // import { ROLES } from '../constants/index.js';
 
 const router = Router();
+router.use(authenticate);
 
 router.post(
   '/',
@@ -42,7 +43,6 @@ router.patch(
   validateBody(updateContactsSchema),
   ctrlWrapper(patchContactController),
 );
-router.use(authenticate);
 
 router.get(
   '/',

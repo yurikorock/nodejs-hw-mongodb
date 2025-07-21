@@ -26,16 +26,16 @@ export const getAllContacts = async ({
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
   //запит для визначення загальної кількості контактів
-  const contactsCount = await ContactsCollection.find()
-    .merge(contactsQuery)
-    .countDocuments();
+  const contactsCount = await ContactsCollection.countDocuments(
+    contactsQuery.getFilter(),
+  );
 
   // запит до бази даних для отримання списку студентів,
   //використовуючи спеціальні методи skip та limit для застосування пагінації.
   const contacts = await contactsQuery
     .skip(skip)
     .limit(limit)
-    .sort({ [sortBy]: sortOrder })
+    .sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 })
     .exec();
 
   //обраховує і повертає дані для пагінації, зокрема інформацію про загальну
