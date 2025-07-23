@@ -11,3 +11,13 @@ export const ONE_DAY = 24 * 60 * 60 * 1000;
 //   USER: 'user',
 //   ADMIN: 'admin',
 // };
+//константи для відсилання листа для скиду пароля
+export const SMTP = {
+  SMTP_HOST: 'SMTP_HOST',
+  SMTP_PORT: 'SMTP_PORT',
+  SMTP_USER: 'SMTP_USER',
+  SMTP_PASSWORD: 'SMTP_PASSWORD',
+  SMTP_FROM: 'SMTP_FROM',
+  JWT_SECRET: 'JWT_SECRET',
+  APP_DOMAIN: 'APP_DOMAIN',
+};

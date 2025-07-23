@@ -1,12 +1,16 @@
 // src/services/auth.js
 import { randomBytes } from 'crypto';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 import { UsersCollection } from '../db/contacts/user.js';
 import createHttpError from 'http-errors';
 import { SessionsCollection } from '../db/contacts/session.js';
 import { FIFTEEN_MINUTES } from '../constants/index.js';
 import { ONE_DAY } from '../constants/index.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
+import { sendEmail } from '../utils/sendMail.js';
+import { SMTP } from '../constants/index.js';
 
 //реєстрація користувача
 export const registerUsers = async (payload) => {
@@ -75,5 +79,26 @@ export const refreshUserSession = async ({ sessionId, refreshToken }) => {
   return await SessionsCollection.create({
     userId: session.userId,
     ...newSession,
+  });
+};
+//функція для скиду пароля
+export const requestResetToken = async (email) => {
+  const user = await UsersCollection.findOne({ email });
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+  const resetToken = jwt.sign(
+    {
+      sub: user._id,
+      email,
+    },
+    getEnvVar('JWT_SECRET'),
+    { expiresIn: '15m' },
+  );
+  await sendEmail({
+    from: getEnvVar(SMTP.SMTP_FROM),
+    to: email,
+    subject: 'Reset your password',
+    html: `<p>Click <a href="${SMTP.APP_DOMAIN}/${SMTP.SMTP_FROM}?${resetToken}<jwt-token>">here</a> to reset your password!</p>`,
   });
 };
