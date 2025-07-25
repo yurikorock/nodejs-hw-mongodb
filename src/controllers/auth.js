@@ -86,11 +86,16 @@ export const refreshUserSessionController = async (req, res) => {
   });
 };
 //обробка запиту на зміну пароля
-export const requestResetEmailController = async (req, res) => {
-  await requestResetToken(req.body.email);
-  res.json({
-    status: 200,
-    message: 'Reset password email has been successfully sent.',
-    data: {},
-  });
+export const requestResetEmailController = async (req, res, next) => {
+  try {
+    await requestResetToken(req.body.email);
+    res.json({
+      status: 200,
+      message: 'Reset password email has been successfully sent.',
+      data: {},
+    });
+  } catch (error) {
+    console.error('requestResetEmailController error : ', error.message);
+    next(error);
+  }
 };

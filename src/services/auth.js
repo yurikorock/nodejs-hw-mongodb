@@ -87,18 +87,32 @@ export const requestResetToken = async (email) => {
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
-  const resetToken = jwt.sign(
+  //   console.log(getEnvVar(SMTP.JWT_SECRET));
+  const token = jwt.sign(
     {
       sub: user._id,
       email,
     },
-    getEnvVar('JWT_SECRET'),
+    getEnvVar(SMTP.JWT_SECRET),
     { expiresIn: '15m' },
   );
-  await sendEmail({
-    from: getEnvVar(SMTP.SMTP_FROM),
-    to: email,
-    subject: 'Reset your password',
-    html: `<p>Click <a href="${SMTP.APP_DOMAIN}/${SMTP.SMTP_FROM}?${resetToken}<jwt-token>">here</a> to reset your password!</p>`,
-  });
+  const resetUrl = `${getEnvVar(
+    SMTP.APP_DOMAIN,
+  )}/reset-password?token=${token}`;
+
+  console.log('resetUrl: ', resetUrl);
+
+  try {
+    await sendEmail({
+      from: getEnvVar(SMTP.SMTP_USER),
+      to: email,
+      subject: 'Reset your password',
+      html: `<p>Click <a href="${resetUrl}">here</a> to reset your password!</p>`,
+    });
+  } catch {
+    throw createHttpError(
+      500,
+      'Failed to send the email, please try again later.',
+    );
+  }
 };

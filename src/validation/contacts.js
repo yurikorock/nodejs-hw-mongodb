@@ -8,7 +8,7 @@ export const createContactsSchema = Joi.object({
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
     .min(3)
-    .max(20)
+    .max(50)
     .optional(),
   isFavourite: Joi.boolean().optional(),
   contactType: Joi.string()

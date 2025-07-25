@@ -31,7 +31,7 @@ router.post('/refresh', ctrlWrapper(refreshUserSessionController));
 export default router;
 //роут для скидання паролю через емейл
 router.post(
-  'send-reset-email',
+  '/send-reset-email',
   validateBody(requestResetEmailSchema),
   ctrlWrapper(requestResetEmailController),
 );
