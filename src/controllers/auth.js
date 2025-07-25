@@ -9,6 +9,7 @@ import {
   refreshUserSession,
   registerUsers,
   requestResetToken,
+  resetPassword,
 } from '../services/auth.js';
 
 export const registerUserController = async (req, res) => {
@@ -98,4 +99,13 @@ export const requestResetEmailController = async (req, res, next) => {
     console.error('requestResetEmailController error : ', error.message);
     next(error);
   }
+};
+//обробка на скид паролю
+export const resetPasswordController = async (req, res) => {
+  await resetPassword(req.body);
+  res.json({
+    status: 200,
+    message: 'Password has been successfully reset.',
+    data: {},
+  });
 };
