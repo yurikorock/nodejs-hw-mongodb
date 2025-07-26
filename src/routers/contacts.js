@@ -16,6 +16,7 @@ import {
 } from '../validation/contacts.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { upload } from '../middlewares/multer.js';
 // import { checkRoles } from '../middlewares/checkRoles.js';
 // import { ROLES } from '../constants/index.js';
 
@@ -25,6 +26,7 @@ router.use(authenticate);
 router.post(
   '/',
   // checkRoles(ROLES.ADMIN),
+  upload.single('photo'),
   validateBody(createContactsSchema),
   ctrlWrapper(createContactController),
 );
@@ -39,6 +41,7 @@ router.delete(
 router.patch(
   '/:contactId',
   // checkRoles(ROLES.ADMIN, ROLES.USER),
+  upload.single('photo'),
   isValidId,
   validateBody(updateContactsSchema),
   ctrlWrapper(patchContactController),
