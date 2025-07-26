@@ -25,3 +25,10 @@ export const SMTP = {
 //шляхи до каталогів, які будуть використовуватись для завантаження файлів
 export const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'temp');
 export const UPLOAD_DIR = path.join(process.cwd(), 'uploads');
+
+//необхідні змінні константи cloudinary
+export const CLOUDINARY = {
+  CLOUD_NAME: 'CLOUD_NAME',
+  API_KEY: 'API_KEY',
+  API_SECRET: 'API_SECRET',
+};
