@@ -5,7 +5,7 @@ import {
   loginUserSchema,
   registerUserSchema,
   requestResetEmailSchema,
-  ResetPasswordShema,
+  resetPasswordShema,
 } from '../validation/auth.js';
 import {
   loginUserController,
@@ -40,6 +40,6 @@ router.post(
 // роут-відповідь для скидання паролю через емайл
 router.post(
   '/reset-pwd',
-  validateBody(ResetPasswordShema),
+  validateBody(resetPasswordShema),
   ctrlWrapper(resetPasswordController),
 );
