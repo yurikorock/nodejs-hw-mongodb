@@ -1,0 +1,29 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: <Contact App>
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: <This is documentation of contacts app>
+tags:
+  - name: Contacts
+    description: Operation about users.
+  - name: Auth
+    description: Auth operation.
+servers:
+  - url: http://locallhost:3000 #доробити посилання
+  - url: https://exxample.com/api/v1 #доробити посилання на задеплоєний сайт
+paths:
+  # тут будуть посилання на ендпоінти
+  /contacts:
+    post:
+      $ref: ../swagger/paths/contacts/post.yaml
+  /contacts/{id}:
+    get:
+      $ref: ../swagger/paths/contacts/{id}/get.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
