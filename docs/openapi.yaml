@@ -12,19 +12,20 @@ tags:
   - name: Auth
     description: Auth operation.
 servers:
-  - url: http://locallhost:3000 #доробити посилання
-  - url: https://exxample.com/api/v1 #доробити посилання на задеплоєний сайт
+  - url: http://localhost:3000 #доробити посилання
+  - url: https://example.com/api/v1 #доробити посилання на задеплоєний сайт
 paths:
   # тут будуть посилання на ендпоінти
   /contacts:
-    post:
+    get:
       $ref: ../swagger/paths/contacts/get.yaml
-  /contacts:
     post:
       $ref: ../swagger/paths/contacts/post.yaml
   /contacts/{id}:
     get:
       $ref: ../swagger/paths/contacts/{id}/get.yaml
+    delete:
+      $ref: ../swagger/paths/contacts/{id}/delete.yaml
 components:
   securitySchemes:
     bearerAuth:

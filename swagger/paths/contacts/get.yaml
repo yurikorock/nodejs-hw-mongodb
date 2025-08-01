@@ -35,11 +35,6 @@ parameters:
       type: string
       example: Adam
   - in: query
-    name: name
-    schema:
-      type: string
-      example: John
-  - in: query
     name: contactType
     schema:
       type: string
@@ -77,7 +72,7 @@ responses:
                 data:
                   type: array
                   items:
-                    $ref: '../../components/schemas/student.yaml'
+                    $ref: '../../components/schemas/contact.yaml'
                 page:
                   type: number
                   example: 2
