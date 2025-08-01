@@ -2,11 +2,20 @@
 
 type: object
 required:
+  - _id
   - name
   - phoneNumber
+  - isFavourite
   - contactType
   - userId
+  - createdAt
+  - updatedAt
+  - photo
 properties:
+  _id:
+    description: "Contact's id"
+    type: number
+    example: 688cd0e9993d29710a7a0971
   name:
     description: "Contact's name"
     type: string
@@ -15,11 +24,26 @@ properties:
     description: "Contact's number phone"
     type: number
     example: '+380500502222'
+  isFavourite:
+    type: boolean
+    example: false
   contactType:
     description: 'Options of contact'
     type: string
     enum: ['work', 'home', 'personal']
   userId:
-    description: "Contact's id"
+    description: "Contact's userId"
     type: number
     example: 687ce2d1d46860d74f96710e
+  createdAt:
+    description: current date and time when the contact is first created
+    type: string
+    example: 2025-08-01T14:16:02.697Z
+  updatedAt:
+    description: current date and time when the contact is updated
+    type: string
+    example: 2025-08-01T14:16:02.697Z
+  photo:
+    description: "Contact's photo"
+    type: string
+    format: binary

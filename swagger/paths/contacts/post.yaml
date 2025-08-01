@@ -2,7 +2,7 @@
 tags:
   - Contacts
 summary: Create contact
-operationId: craeteContact
+operationId: createContact
 description: 'Create a contact with payload'
 security:
   - bearerAuth: []
@@ -15,7 +15,6 @@ requestBody:
           - name
           - phoneNumber
           - contactType
-          - userId
         properties:
           name:
             description: "Contact's name"
