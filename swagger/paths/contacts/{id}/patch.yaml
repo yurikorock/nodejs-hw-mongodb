@@ -27,6 +27,10 @@ requestBody:
             description: "Contact's number phone"
             type: string
             example: '+380500502222'
+          email:
+              description: "Contact's email"
+              type: string
+              example: JonDoe@gmail.com
           isFavourite:
             type: boolean
             example: false

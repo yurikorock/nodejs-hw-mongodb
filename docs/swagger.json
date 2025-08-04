@@ -206,8 +206,17 @@
                   },
                   "phoneNumber": {
                     "description": "Contact's number phone",
-                    "type": "number",
+                    "type": "string",
                     "example": "+380500502222"
+                  },
+                  "email": {
+                    "description": "Contact's email",
+                    "type": "string",
+                    "example": "JonDoe@gmail.com"
+                  },
+                  "isFavourite": {
+                    "type": "boolean",
+                    "example": false
                   },
                   "contactType": {
                     "description": "Options of contact",
@@ -217,6 +226,11 @@
                       "home",
                       "personal"
                     ]
+                  },
+                  "photo": {
+                    "description": "Contact's photo",
+                    "type": "string",
+                    "format": "binary"
                   }
                 }
               }
@@ -389,6 +403,11 @@
                     "type": "string",
                     "example": "+380500502222"
                   },
+                  "email": {
+                    "description": "Contact's email",
+                    "type": "string",
+                    "example": "JonDoe@gmail.com"
+                  },
                   "isFavourite": {
                     "type": "boolean",
                     "example": false
@@ -463,6 +482,7 @@
           "_id",
           "name",
           "phoneNumber",
+          "email",
           "isFavourite",
           "contactType",
           "userId",
@@ -485,6 +505,11 @@
             "description": "Contact's number phone",
             "type": "number",
             "example": "+380500502222"
+          },
+          "email": {
+            "description": "Contact's email",
+            "type": "string",
+            "example": "JonDoe@gmail.com"
           },
           "isFavourite": {
             "type": "boolean",

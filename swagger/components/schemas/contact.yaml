@@ -5,6 +5,7 @@ required:
   - _id
   - name
   - phoneNumber
+  - email
   - isFavourite
   - contactType
   - userId
@@ -24,6 +25,10 @@ properties:
     description: "Contact's number phone"
     type: number
     example: '+380500502222'
+  email:
+    description: "Contact's email"
+    type: string
+    example: JonDoe@gmail.com
   isFavourite:
     type: boolean
     example: false

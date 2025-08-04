@@ -22,12 +22,23 @@ requestBody:
             example: 'John Doe'
           phoneNumber:
             description: "Contact's number phone"
-            type: number
+            type: string
             example: '+380500502222'
+          email:
+              description: "Contact's email"
+              type: string
+              example: JonDoe@gmail.com
+          isFavourite:
+            type: boolean
+            example: false
           contactType:
             description: 'Options of contact'
             type: string
             enum: ['work', 'home', 'personal']
+          photo:
+            description: "Contact's photo"
+            type: string
+            format: binary
 responses:
   '201':
     description: 'Creates a contact'
